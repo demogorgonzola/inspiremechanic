@@ -1,4 +1,4 @@
-# Requirements Doc to begin on Production (Pre-Production Doc)
+# Blueprint Doc to begin Production (Pre-Production Doc)
 
 Language(s) Used: Python
 
@@ -12,3 +12,18 @@ Core Concepts of Game:
   * Friends (Party Members) are autonomous
   * Beating up other kids and getting beaten is good
   * Emotional state of yourself and others need care
+
+Overarching Systems (Systems that support the Concepts):
+  * Character Alignment (Party System)
+  * Emotional State (Health System)
+  * A way of punching kids (Battle System)
+
+Underlying Systems (Systems that support Overarching systems):
+  * Move and be represented in space -- Spatial System
+  * Be visually represented -- Graphical System
+  * Involve player input -- Input System
+  * Provide a system of challenge, a challenger -- AI System
+  * Include moving dynamic entities -- NPC System
+  * Keep track of entities and query certain characteristic -- Entity System
+  **Note**: The Entity System is crucial to this system as every system will
+  serve almost every other system.
