@@ -1,6 +1,14 @@
 # Blueprint Doc to begin Production (Pre-Production Doc)
 
+#####
+
 Language(s) Used: Python
+
+Libraries Used:
+  * [Pyglet](https://pyglet.readthedocs.io/en/pyglet-1.2-maintenance/index.html)
+  * [PyDbLite](https://pydblite.readthedocs.io/en/latest/index.html)
+
+#####
 
 Kind of Game:
   2d-top-down arena-styled party-based battler. That sounds like shitty
