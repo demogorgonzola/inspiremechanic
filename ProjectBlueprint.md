@@ -65,8 +65,12 @@ Underlying Systems (Systems that support Overarching systems):
       1. Create dummy hooks for _future_* action system
           Note: use input dummy hooks to test different systems
     1. **Test Input on Entities**
-    1. Develop Graphic System using Pyglet
-      **_<REVISIT AFTER PYGLET GRAPHICAL MOCKUP>_**
+    1. Develop Graphical System using Pyglet
+      1. Implement Table for graphical data
+        1. Use truncated format for gl_shapes and images
+      1. _Test_: Create temp hooks for input system
+      1. Create dummy hooks for _future_* collision system
+      Note: **Make sure graphical position reflects logical position**
     1. **Test Graphical system with Entities**
     1. Develop Collision System
         Note: Keep looking for a suitable library
