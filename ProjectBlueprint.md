@@ -62,7 +62,7 @@ Underlying Systems (Systems that support Overarching systems):
     1. Develop Input System using Pyglet
       1. Define a list of actions available to the player (Singleton Entry)
       1. Create Action-Keybind Table in Entity System
-      1. Create dummy hooks for _future_* action system
+      1. Create dummy hooks for _future_* action profiles
           Note: use input dummy hooks to test different systems
     1. **Test Input on Entities**
     1. Develop Graphical System using Pyglet
