@@ -46,7 +46,7 @@ for r in db('age') >= 20:
     print(r)
 print('#######')
 print('shortguy')
-for r in db('name').like('jeremy'):
+for r in db('name').ilike('jeremy'):
     print(r)
 print('#######')
 #db support list comprehension
