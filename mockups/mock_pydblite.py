@@ -45,6 +45,10 @@ db.create_index('age')
 for r in db('age') >= 20:
     print(r)
 print('#######')
+print('shortguy')
+for r in db('name').ilike('jeremy'):
+    print(r)
+print('#######')
 #db support list comprehension
 really_really_really_short = next(r for r in db('size') < 1.0)
 
@@ -54,7 +58,7 @@ db.update(db,age='23') ; fp()
 
 #delete supports single and multiple records
 db.delete( r for r in db('size') >= 0.2 ) ; fp()
-del db[next( r for r in db('size') < 0.2 )] ; fp()
+del db[next( r for r in db('size') < 0.2 )['__id__']] ; fp()
 
 
 #useful utility functions
