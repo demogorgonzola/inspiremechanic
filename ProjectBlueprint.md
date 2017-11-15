@@ -114,12 +114,12 @@ Underlying Systems (Systems that support Overarching systems):
   - iii. Create context-switch and reset when health is 0
   - iv. **Test Health System for "fun factor"**
   * **Tinker and adjust Battle System and Health System for better experience**
-4. Develop Party System
+3. Develop Party System
   - i. Should just be a extension of the "alignment" field in "character"
   - ii. **Test Party System for "fun factor"**
   - Note: Later create actual "party" DB to add meta-data to rival party
   groups.
-5. **Start play testing and start tweaking for weeks, months, however long**
+4. **Start play testing and start tweaking for weeks, months, however long**
   - **DURING THIS PHASE, IF THE OVERARCHING SYSTEMS ARE NOT-FUN/TRASH,
   QUICKLY THROW THEM OUT (Archive them), START OVER AND WRITE NEW PLAN**
 
