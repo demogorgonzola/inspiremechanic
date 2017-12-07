@@ -21,8 +21,9 @@ class TestEntitySystem(unittest.TestCase):
     def test_InsertSingle(s):
         tname = 'hey'
         s.db.insert(name=tname)
-        entry = next(iter(s.db('name').ilike(tname)))
-        s.assertIs(entry['name'],tname)
+        record = next(iter(s.db))
+        print(record)
+        s.assertIs(record['name'],tname)
 
     def test_InsertMany(s):
         tname1 = 'a' ; tname2 = 'b' ; tname3 = 'c'

@@ -7,7 +7,7 @@
 import unittest
 import math
 import random
-import src.entitysystem as es
+from src.util import SubsetBase
 
 # s = self
 # test naming convention: test_<methodname>_<aspect>
@@ -17,11 +17,11 @@ class TestSubsetEntityDatabse(unittest.TestCase):
         subset_path = 'tests/test-subset.pdl'
         osubset_path = 'tests/test-osubset.pdl'
 
-        superset = es.Subset(superset_path)
-        subset = es.Subset(subset_path)
-        osubset = es.Subset(osubset_path)
+        superset = SubsetBase(superset_path)
+        subset = SubsetBase(subset_path)
+        osubset = SubsetBase(osubset_path)
 
-        superset.create(mode='override')
+        superset.create('super1','super2',mode='override')
         subset.create('val1','val2',superset=superset,mode='override')
         osubset.create('oval1','oval2',superset=superset,mode='override')
 
@@ -33,15 +33,6 @@ class TestSubsetEntityDatabse(unittest.TestCase):
         s.superset.delete(s.superset)
         s.subset.delete(s.subset)
         s.osubset.delete(s.osubset)
-        s.superset = None
-        s.subset = None
-        s.osubset = None
-
-    def test_Create_reffieldIncluded(s):
-        s.assertIn('ref',s.subset.fields)
-
-    def test_Create_supersetIncluded(s):
-        s.assertIs(s.subset.superset,s.superset)
 
     def test_Insert_validInsert(s):
         r_id = s.superset.insert()
@@ -105,6 +96,41 @@ class TestSubsetEntityDatabse(unittest.TestCase):
 
         s.assertEqual(expected,result)
         s.assertEqual(expected,reverse)
+
+    def test_GetItem_usesRef(s):
+        super_entry1 = s.superset.insert()
+        super_entry2 = s.superset.insert()
+        entry1 = s.subset.insert(super_entry2)
+        entry2 = s.subset.insert(super_entry1)
+
+        expected_super_entry1 = super_entry1
+        expected_entry1 = entry1
+        expected_entry2 = entry2
+
+        result_super_entry1 = s.superset[super_entry1]
+        result_entry1 = s.subset[entry1]
+        result_entry2 = s.subset[entry2]
+
+        s.assertEqual(expected_super_entry1,result_super_entry1['ref'])
+        s.assertEqual(expected_entry1,result_entry1['ref'])
+        s.assertEqual(expected_entry2,result_entry2['ref'])
+
+    def test_AuxData_inserted(s):
+        r_id1 = s.superset.insert()
+        r_id2 = s.superset.insert()
+        s.subset.insert(r_id2,'hello','world')
+        s.subset.insert(ref=r_id1,val1='goodbye',val2='hell')
+
+        expected_hello = r_id2
+        expected_hell = r_id1
+
+        result_hello = next(iter(s.subset(val1='hello')))['ref']
+        result_hell = next(iter(s.subset(val2='hell')))['ref']
+
+        s.assertIs(expected_hello,result_hello)
+        s.assertIs(expected_hell,result_hell)
+
+
 
 
 if __name__ == '__main__':
