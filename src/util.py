@@ -17,35 +17,50 @@ from pydblite import Base
 class SubsetBase(Base):
     REF = 'ref'
 
+
     def create(self,*fields,**kw):
         self.superset = kw['superset'] if 'superset' in kw else None
         super(SubsetBase,self).create(SubsetBase.REF,*fields,**kw)
         super(SubsetBase,self).create_index(SubsetBase.REF)
         return self
 
+
     def insert(self,*args,**kw):
-        ref_id = kw[SubsetBase.REF] if SubsetBase.REF in kw else args[0] if len(args) > 0 else None
-        if (not self.superset) or (ref_id in self.superset and ref_id not in self):
-            if self.superset:
-                return super(SubsetBase,self).insert(*args,**kw)
+        if self.superset:
+            if SubsetBase.REF not in kw and len(args) <= 0:
+                raise ValueError('Ref not included for subset')
             else:
-                r_id = super(SubsetBase,self).insert(None,*args,**kw)
-                super(SubsetBase,self).update(super(SubsetBase,self).__getitem__(r_id),ref=r_id)
-                return r_id
+                ref_id = kw[SubsetBase.REF] if SubsetBase.REF in kw else args[0]
+                if ref_id not in self.superset:
+                    raise ValueError('Id does not exist in the Superset')
+                elif ref_id in self:
+                    raise ValueError('Cannot insert duplicates in subset')
         else:
-            raise ValueError('Id does not exist in the Superset')
+            if SubsetBase.REF in kw:
+                raise ValueError('Ref not included for non-subset')
+
+        if self.superset:
+            ref_id = kw[SubsetBase.REF] if SubsetBase.REF in kw else args[0]
+            super(SubsetBase,self).insert(*args,**kw)
+            return ref_id
+        else:
+            return super(SubsetBase,self).insert(self.next_id,*args,**kw)
+
 
     def update(self,records,**kw):
         if SubsetBase.REF in kw:
             raise ValueError('Ref cannot be modified')
         return super(SubsetBase,self).update(records,**kw)
 
+
     def __getitem__(self,key):
         record = self.indices[SubsetBase.REF][key][0]
         return super(SubsetBase,self).__getitem__(record)
 
+
     def __contains__(self,ref_id):
         return ref_id in self.indices[SubsetBase.REF]
+
 
     # aux functions
     def intersection(self,other):
@@ -54,6 +69,7 @@ class SubsetBase(Base):
             if ref in other: #extensibility issue, self ref
                 intersect.append(ref)
         return set(intersect)
+
 
     # bug fixes
     def __call__(self, *args, **kw):
